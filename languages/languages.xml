@@ -1,0 +1,15 @@
+<Languages>
+	<!-- 
+		TinyMCE must have required language packed installed to be able to work under corresponding locale.
+		The following languages are allowed for TinyMCE, besides the provided languages:
+		Italian, Japanese, Korean, Portugese, Thai, Vietnamese, Albanian, Bosnian, Czech, Danish, Dutch/Flemish, Finnish, Goergian, Greek, Hungarian, Icelandic, Russian, Ukrainian, Serbian, Slovak, Swedish and Norwegian
+			
+		The above languages are not provided by Ingeniux, so adding those languages will maintain English UI for most parts. TinyMCE interface will be partically translated.
+	 -->	
+  <Language name="English" locale="en-us" />
+  <Language name="Español" locale="es-mx" />
+  <Language name="Français" locale="fr-ca" />
+  <Language name="Deutsch" locale="de-de" />
+  <Language name="简体中文" locale="zh-cn" />
+	<Language name="日本語" locale="ja-jp" />
+</Languages>

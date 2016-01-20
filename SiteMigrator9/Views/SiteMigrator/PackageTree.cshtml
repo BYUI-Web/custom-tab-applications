@@ -1,0 +1,23 @@
+﻿@{
+	Layout = null;
+}
+<!--onselectstart="return false"-->
+<!-- tree rpc controller and selector. They are actually objects that will control tree behaviors -->
+<div rpcurl="MigratorAPI/TreeFuncs" widgetid="treeController" id="treeController"></div>
+<div widgetid="treeSelector" id="treeSelector"></div>
+
+<!-- tree body -->
+<div id="siteTree" selector="treeSelector" toggler="expand" widgetid="siteTree"
+	controller="treeController"
+	menu="treeContextMenu"
+	style="font-weight: normal; font-family: Verdana">
+	<!-- root node of content store -->
+	<div id="packRoot" widgetId="packRoot"  title="@ViewBag.PackageName" isFolder="true" 
+				childIconSrc="@ViewBag.IconPath">
+	</div>
+</div>
+<!-- tooltip -->
+<div dojotype="tooltip" connectid="x1" id="tip" showdelay="100">
+	<div style="padding: 2px; font-family: Verdana, Arial, sans-serif; font-size: 11px;">
+	</div>
+</div>

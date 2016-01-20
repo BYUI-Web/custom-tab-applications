@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C7B4109-C5BC-4C61-A63F-96823306A477}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ingeniux_API_Extensions_Development_Harness</RootNamespace>
+    <AssemblyName>Ingeniux_API_Extensions_Development_Harness</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>tempOutput\bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>tempOutput\bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ingeniux.CMS.Common">
+      <HintPath>packages\IngeniuxRuntimeAPIV9.9.5.0.0\lib\net45\Ingeniux.CMS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ingeniux.CMS.CSAPI">
+      <HintPath>packages\IngeniuxRuntimeAPIV9.9.5.0.0\lib\net45\Ingeniux.CMS.CSAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Ingeniux.CMS.Models">
+      <HintPath>..\..\..\bin\Ingeniux.CMS.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Ingeniux.CMS.Site">
+      <HintPath>..\..\..\bin\Ingeniux.CMS.Site.dll</HintPath>
+    </Reference>
+    <Reference Include="IngeniuxCMService">
+      <HintPath>..\..\..\bin\IngeniuxCMService.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\..\..\bin\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomHooks.cs" />
+    <Compile Include="CustomIndexes.cs" />
+    <Compile Include="get_element_values.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="emailNotifications\en-us\workflowNotifications.xml" />
+    <Content Include="IndexingSearch\binary\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="IndexingSearch\binary\Ingeniux.Search.dll" />
+    <Content Include="IndexingSearch\binary\Ingeniux.Support.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Analyzers.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Core.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.FastVectorHighlighter.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Highlighter.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Memory.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Queries.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Regex.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.SimpleFacetedSearch.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.Snowball.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.Contrib.SpellChecker.dll" />
+    <Content Include="IndexingSearch\binary\Lucene.Net.dll" />
+    <Content Include="languages\flags\de-de.png" />
+    <Content Include="languages\flags\en-us.png" />
+    <Content Include="languages\flags\es-eu.png" />
+    <Content Include="languages\flags\es-mx.png" />
+    <Content Include="languages\flags\fr-ca.png" />
+    <Content Include="languages\flags\international.png" />
+    <Content Include="languages\flags\ja-jp.png" />
+    <Content Include="languages\flags\zh-cn.png" />
+    <Content Include="languages\languages.xml" />
+    <Content Include="RavenDB\Esent.Interop.dll" />
+    <Content Include="RavenDB\Esent.Interop.pdb" />
+    <Content Include="RavenDB\Esent.Interop.xml" />
+    <Content Include="RavenDB\ICSharpCode.NRefactory.dll" />
+    <Content Include="RavenDB\Lucene.Net.dll" />
+    <Content Include="RavenDB\Lucene.Net.pdb" />
+    <Content Include="RavenDB\Lucene.Net.xml" />
+    <Content Include="RavenDB\Newtonsoft.Json.dll" />
+    <Content Include="RavenDB\Newtonsoft.Json.pdb" />
+    <Content Include="RavenDB\Newtonsoft.Json.xml" />
+    <Content Include="RavenDB\NLog.dll" />
+    <Content Include="RavenDB\NLog.xml" />
+    <Content Include="RavenDB\Raven.Abstractions.dll" />
+    <Content Include="RavenDB\Raven.Abstractions.pdb" />
+    <Content Include="RavenDB\Raven.Abstractions.XML" />
+    <Content Include="RavenDB\Raven.Client.Embedded.dll" />
+    <Content Include="RavenDB\Raven.Client.Embedded.pdb" />
+    <Content Include="RavenDB\Raven.Client.Embedded.XML" />
+    <Content Include="RavenDB\Raven.Client.Lightweight.dll" />
+    <Content Include="RavenDB\Raven.Client.Lightweight.pdb" />
+    <Content Include="RavenDB\Raven.Client.Lightweight.XML" />
+    <Content Include="RavenDB\Raven.Client.MvcIntegration.dll" />
+    <Content Include="RavenDB\Raven.Client.MvcIntegration.pdb" />
+    <Content Include="RavenDB\Raven.Database.dll" />
+    <Content Include="RavenDB\Raven.Database.pdb" />
+    <Content Include="RavenDB\Raven.Studio.xap" />
+    <Content Include="Resources\ActionAttributes.xml" />
+    <Content Include="Resources\contextMenuConfigTemplate.xml" />
+    <Content Include="Resources\DefaultWorkflowEmailTemplate.xml" />
+    <Content Include="Resources\ReplicationTargetTypes.xml" />
+    <Content Include="SpellCheckDictionaries\extensions\DictionaryExtensions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="SpellCheckDictionaries\de_DE.aff" />
+    <None Include="SpellCheckDictionaries\de_DE.dic" />
+    <None Include="SpellCheckDictionaries\en_US.aff" />
+    <None Include="SpellCheckDictionaries\en_US.dic" />
+    <None Include="SpellCheckDictionaries\es_MX.aff" />
+    <None Include="SpellCheckDictionaries\es_MX.dic" />
+    <None Include="SpellCheckDictionaries\fr_CA.aff" />
+    <None Include="SpellCheckDictionaries\fr_CA.dic" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

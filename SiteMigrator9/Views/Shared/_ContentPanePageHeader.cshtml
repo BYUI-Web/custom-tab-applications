@@ -1,0 +1,33 @@
+﻿<head>
+	<title>Ingeniux CMS - @(ViewBag.Title)</title>
+	<meta http-equiv="Content-Type" content="text/html; CHARSET=utf-8" />
+	<meta http-equiv="Pragma" content="no-cache"/> 
+	<script language="javascript">
+		var interrupt = false;
+		var pageList = new Array();
+		var _filePath;
+	</script>
+	<script language="javascript" src="@(ViewBag.AssetsPath)scripts/prototype.js" ></script>	
+	<script language="javascript" src="@(ViewBag.AssetsPath)scripts/packFunctions.js" ></script>	
+	<script language="javascript" src="@(ViewBag.AssetsPath)scripts/unpackFunctions.js" ></script>
+	<link type="text/css" rel="stylesheet" href="@(ViewBag.AssetsPath)content/styles.css"/>
+	<style type="text/css">
+		#xslTarget
+			{border-top:thin inset; overflow: auto; width: 100%;padding-top:12px;}
+		#spanPageName
+			{padding-left:5px;font-weight:bold;}
+		.pageItem
+			{text-align:left;padding-left:10px;}
+		.pageItemLabel
+			{font-weight:bold;margin-right:3px;}
+		.headerDiv
+			{width:100%;padding-top:2px;white-space:nowrap;}
+		.editText, .layoutText, .xpowerElement
+			
+		select
+		{width:400px; text-align:right}
+				
+		#error
+			{color:red}				
+	</style>		
+</head>

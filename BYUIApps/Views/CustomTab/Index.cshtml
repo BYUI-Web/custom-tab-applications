@@ -1,0 +1,779 @@
+﻿@*@model Ingeniux.CMS.Applications.PageContext*@
+@using Ingeniux.CMS;
+
+@{
+    ViewBag.Title = "Sample CMS Custom Tab Application";
+    IPage page = Model.Page;
+    string pageLabel = page.ToNullHelper()
+        .Propagate(
+            p => string.Format("{0} [{1}]", p.Name, p.Id))
+        .Return("No Page Specified");
+
+    IPublishingTarget pubTarget = Model.CurrentPublishingTarget;
+    string pubTargetLabel = pubTarget.ToNullHelper()
+        .Propagate(
+            p => p.Name)
+        .Return("No Publishing Target Specified");
+
+    IUser user = Model.CurrentUser;
+    string userLabel = user.ToNullHelper()
+        .Propagate(
+            u => string.Format("{0} - {1}", u.Name, u.UserId))
+        .Return("No User Specified");
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Site Sync</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript">
+        function syncSite() {
+            var sitePages = "@string.Join( "|", Model.Site.ToArray() )";
+            var schema = $('#schema-select option:selected').attr('data-val');
+            
+            $('#alert-box').html("Syncing site, pease wait...");
+            $('#alert-box').fadeIn();
+
+
+
+            $.ajax({
+                url: '@Url.Action("SyncSite", "CustomTab", null, Request.Url.Scheme)',
+                type: 'post',
+                data: {
+                    pages: sitePages, schema: schema
+                },
+                headers: {
+                    'X-IGXAToken': '@Model.sessionID'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#alert-box').html("Finished sycing site, the following pages were updated: " + data.message.SuccessPageIDs.join(", ") + ".");
+                    console.info(data);
+                },
+                fail: function (msg) {
+                    alert(msg);
+                    $('#alert-box').fadeOut();
+                }
+            });
+
+
+        }
+
+        function mapElements() {
+            if (!validateForm()) {
+                return;
+            }
+
+            $('#error-box').hide();
+
+            var xID = '@Model.Page.Id';
+            var oldName = $('#mapOld').val();
+            var newName = $('#mapNew').val();
+            var sitePages = "@string.Join( " | ", Model.Site.ToArray() )";
+
+            $('#alert-box').html("Renaming elements, please wait...");
+            $('#alert-box').fadeIn();
+
+            console.log(xID + " " + oldName + " " + newName);
+
+            $.ajax({
+                url: '@Url.Action("CopyElement", "CustomTab", null, Request.Url.Scheme)',
+                type: 'post',
+                data: {
+                    'oldName': oldName,
+                    'newName': newName,
+                    'pages': sitePages
+                },
+                headers: {
+                    'X-IGXAToken': '@Model.sessionID'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#alert-box').html("Finished Renaming Elements");
+
+                    if (data.errors) {
+                        var couldNotMap = data.errors.join(", ");
+                        displayError("The following pages did not have an element with name '" + oldName + "': " + couldNotMap + ". Please view console output for a complete list of avalialbe elements by xid.");
+                        console.log(data);
+                    }
+
+                    console.info(data);
+                },
+                error: function (){
+                    alert(msg);
+                    $('#alert-box').fadeOut();
+                },
+                fail: function (msg) {
+                    alert(msg);
+                    $('#alert-box').fadeOut();
+                }
+            });
+
+
+        }
+
+        function validateForm() {
+            $('#error-box').hide();
+
+            var oldName = $('#mapOld');
+            var newName = $('#mapNew');
+
+            if ($(oldName).val() === "" || $(newName).val() === "") {
+                displayError("'Old Element Name' and 'New Element Name' are required fields.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function displayError(message) {
+            $('#error-box').html(message);
+            $('#error-box').fadeIn();
+        }
+
+        (function (settings) {
+            // Don't break on Internet Explorer
+            if (!window.console.error) {
+                window.console.error = function () { }
+            }
+
+            var igx_settings = {
+                membership_provider: settings.membership_provider || 'IGXADMembershipProvider',
+                root_url: settings.root_url || '',
+                cross_domain: !!settings.root_url,
+                session_id: ''
+            };
+
+            window.IGX = {
+                User: {},
+                RESTful: {},
+                Pages: {}
+            };
+
+            function IsLoggedIn() {
+                return !!igx_settings.session_id;
+            }
+
+            function syncSite(rootPageId, schemaId, publishTarget, callback) {
+                var treeNode = {
+                    "widgetId": rootPageId,
+                    "objectId": rootPageId,
+                    "index": 1
+                }
+
+                //ugrade the schema
+                IGX.RESTful.SchemaDesignerServices.SyncPagesToSchema(schemaId, [rootPageId], show_result);
+
+                //get children and recurse
+                IGX.RESTful.SiteTree.GetChildPages(treeNode, publishTarget, 0, schemaId, siteSyncHelper);
+            }
+
+            function siteSyncHelper(schemaId, response) {
+                var children = response.message;
+
+                //For each child page
+                for (var i = 0; i < children.length; i++) {
+                    //get the current child
+                    var child = children[i];
+
+                    //get decendatns of children by calling the above function
+                    syncSite(child.objectId, schemaId, 'dev-wes', show_result);
+                }
+            }
+
+            IGX.Pages.syncSite = function (pagId, pageIds, publishTarget, callback) {
+                return syncSite(pagId, pageIds, publishTarget, callback);
+            }
+
+            IGX.User.LoggedIn = function () {
+                return IsLoggedIn();
+            }
+
+            var RESTful_Services = {};
+
+            function create_service_action(name, method_name, method) {
+                RESTful_Services[name][method_name] = method;
+                IGX.RESTful[name][method_name] = function () {
+                    RESTful_Services[name][method_name].apply(this, arguments);
+                }
+            }
+
+            function create_service(name, methods) {
+                if (RESTful_Services[name]) {
+                    console.error('RESTful Service with name "' + name + '" already exists.');
+                    return;
+                }
+
+                RESTful_Services[name] = {};
+                IGX.RESTful[name] = {};
+
+                var length = methods.length;
+                for (var i = 0; i < length; ++i) {
+                    {
+                        var method = methods[i];
+                        var method_name = /function ([^(]*)/.exec(method + "")[1];
+                        console.log(method_name);
+                        if (RESTful_Services[name][method_name]) {
+                            console.error('RESTful Service "' + name + '" already has a method named"' + method_name + '".')
+                        }
+
+                        create_service_action(name, method_name, method);
+                    }
+                }
+            }
+
+            /***
+            * Create MembershipProviders service
+            */
+            create_service('MembershipProviders', [
+                function Login(username, password, callback) {
+                    if (typeof username != 'string' || typeof password != 'string' || typeof callback != 'function' || arguments.length < 3) {
+                        throw 'MembershipProviders.Login takes 3 arguments: [string] username, [string] password, [function] callback.';
+                    }
+                    if (IsLoggedIn()) {
+                        callback({
+                            code: -1,
+                            error: 'You are already logged in'
+                        });
+                        return
+                    }
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/MembershipProvidersServices.svc/Login",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        data: JSON.stringify({
+                            "userName": username,
+                            "password": password,
+                            "membershipProviderName": igx_settings.membership_provider
+                        }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            console.log(response.message);
+                            igx_settings.session_id = response.message;
+                            delete response.message;
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                    function Logout(callback) {
+                        if (typeof callback != 'function') {
+                            throw 'MembershipProviders.Logout takes 1 argument: [function] callback.';
+                        }
+
+                        if (!IsLoggedIn()) {
+                            callback({
+                                code: -1,
+                                error: 'You are already logged out'
+                            });
+                        }
+                        igx_settings.session_id = '';
+                        callback({
+                            code: 0,
+                            message: 'Logged out successfully'
+                        });
+                    },
+                    function ChangePassword(username, oldpassword, newpassword, callback) {
+                        if (typeof username != 'string' || typeof oldpassword != 'string' || typeof newpassword != 'string' || typeof callback != 'function') {
+                            throw 'MembershipProviders.ChangePassword takes 4 arguments: [string] username, [string] oldpassword, [string]newpassword [function] callback.';
+                        }
+                        if (!IsLoggedIn()) {
+                            callback({
+                                code: -1,
+                                error: 'You must be logged in to change passwords'
+                            });
+                            return;
+                        }
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+
+                    },
+                    function CreateUser(username, password, email, callback) {
+                        if (typeof username != 'string' || typeof password != 'string' || typeof email != 'string' || typeof callback != 'function') {
+                            throw 'MembershipProviders.CreateUser takes 4 arguments: [string] username, [string] password, [string] email, [function] callback.'
+                        }
+                        if (!IsLoggedIn()) {
+                            callback({
+                                code: -1,
+                                error: 'You must be logged in to change passwords'
+                            });
+                            return;
+                        }
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function DeleteUsers(users, callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function GetADQueryDefaults(callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function GetIntegratedProvider(callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function IsAdDefaultProvider(callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function QueryAD(callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    },
+                    function ResetPassword(callback) {
+                        callback({
+                            code: -2,
+                            error: ' Unimplemented'
+                        });
+                    }
+            ]);
+
+
+            /***
+            * Create UserManager Service
+            */
+
+            create_service('UserManager', [
+                function CreateNewGroup(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function CreateNewUser(id, name, email, password, callback) {
+                    if (typeof settings != 'object' || typeof callback != 'function') {
+                        throw 'UserManager.CreateNewUser takes 5 arguments: [string] id, [string] name, [string] email, [string] password, [function] callback.'
+                    }
+
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/UserManagerServices.svc/CreateNewUser",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        data: JSON.stringify({
+                            data: {
+                                info: {
+                                    newEntry: true,
+                                    receiveWorkFlowNotificationMail: false,
+                                    integratedMembershipProvider: '',
+                                    readLocales: [],
+                                    writeLocales: [],
+                                    id: 'byui\/' + id,
+                                    name: name,
+                                    email: email,
+                                    password: password,
+                                },
+                                groups: []
+                            }
+                        }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                function DeleteGroups(group_ids, callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function DeleteUsers(user_ids, callback) {
+                    if (!(user_ids instanceof Array) || typeof callback != 'function') {
+                        throw 'UserManager.DeleteUsers takes two arguments: [array of strings] user_ids, [function] callback.';
+                    }
+
+                    var request = new XMLHttpRequest();
+
+                    request.onreadystatechange = function () {
+                        if (request.readyState == 4) {
+                            if (request.status == 200) {
+                                callback(request.response);
+                            }
+                        }
+                    };
+
+                    // FIXME: This does not handle cross domain requests yet
+                    request.open('POST', igx_settings.root_url + "/REST/UserManagerServices.svc/DeleteUsers", true);
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    request.setRequestHeader('X-IGXAToken', igx_settings.session_id);
+                    request.responseType = 'json';
+                    request.send(JSON.stringify({
+                        data: {
+                            selectedIds: user_ids
+                        }
+                    }));
+
+                },
+                function GetGroupRoles(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function GetSettings(callback) {
+                    if (typeof callback != 'function') {
+                        throw 'UserManager.GetSettings takes 1 argument: [function] callback';
+                    }
+
+                    if (!IsLoggedIn()) {
+                        callback({
+                            code: -1,
+                            error: 'You must be logged in to use UserManager.GetSettings'
+                        });
+                        return;
+                    }
+
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/UserManagerServices.svc/GetSettings",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                function GetSingleGroup(group_id, callback) {
+                    if (typeof group_id != 'string' || typeof callback != 'function') {
+                        throw 'UserManager.GetSingleGroup takes 2 arguments: [string] group_id, [function] callback';
+                    }
+
+                    if (!IsLoggedIn()) {
+                        callback({
+                            code: -1,
+                            error: 'You must be logged in to use UserManager.GetSingleGroup'
+                        });
+                        return;
+                    }
+
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/UserManagerServices.svc/GetSingleGroup",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        data: JSON.stringify({ data: { 'itemId': group_id } }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                function GetSingleUser(user_id, callback) {
+                    if (typeof user_id != 'string' || typeof callback != 'function') {
+                        throw 'UserManager.GetSingleUser takes 2 arguments: [string] user_id, [function] callback';
+                    }
+
+                    if (!IsLoggedIn()) {
+                        callback({
+                            code: -1,
+                            error: 'You must be logged in to use UserManager.GetSingleUser'
+                        });
+                        return;
+                    }
+
+                    console.log(encodeURI('byui\\' + user_id));
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/UserManagerServices.svc/GetSingleUser",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        data: JSON.stringify({ data: { 'itemId': encodeURI('byui\\' + user_id) } }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                function GetUsersAndGroupsSimple(callback) {
+                    if (typeof callback != 'function') {
+                        throw 'UserManager.GetSingleGroup takes 1 argument: [function] callback';
+                    }
+
+                    if (!IsLoggedIn()) {
+                        callback({
+                            code: -1,
+                            error: 'You must be logged in to use UserManager.GetUsersAndGroupsSimple'
+                        });
+                        return;
+                    }
+
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/UserManagerServices.svc/GetUsersAndGroupsSimple",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+                function RemoveGroupRole(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function SaveGroupRole(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function SaveSingleGroup(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function SaveSingleUser(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                },
+                function SetSettings(callback) {
+                    callback({
+                        code: -2,
+                        error: ' Unimplemented'
+                    });
+                }
+            ]);
+
+            create_service('SiteTree', [
+                function GetChildPages(treeNode, publishTarget, nextIndex, schemaId, callback) {
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/SiteTreeServices.svc/GetChildPages",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        data: JSON.stringify({
+                            node: treeNode,
+                            pubTarget: publishTarget,
+                            nextPageIndex: nextIndex
+                        }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(schemaId, response);
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                }
+            ]);
+
+            create_service('SchemaDesignerServices', [
+                function SyncPagesToSchema(schemaId, pageIds, callback) {
+                    console.log(
+                        JSON.stringify({
+                            data: {
+                                SchemaId: schemaId,
+                                PageIDs: pageIds
+                            }
+                        }
+                    ));
+
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/SchemaDesignerServices.svc/SyncPagesToSchema",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        data: JSON.stringify({
+                            SchemaId: schemaId,
+                            PageIDs: pageIds
+                        }),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                },
+
+                function GetSchemas(callback) {
+                    jQuery.ajax({
+                        url: igx_settings.root_url + "/REST/SchemaDesignerServices.svc/GetSchemas",
+                        type: "POST",
+                        crossDomain: igx_settings.cross_domain,
+                        headers: {
+                            "X-IGXAToken": igx_settings.session_id //send security token as header
+                        },
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (response) {
+                            callback(response);
+                        },
+                        error: function (xhr, status) {
+                            alert(status);
+                        }
+                    });
+                }
+            ]);
+        })({
+            root_url: 'http://igxur/dev-wes'
+        });
+
+        function show_result(result) {
+            switch (result.code) {
+                case 0:
+                    console.log(result.message);
+                    break;
+                default:
+                    console.log(result.error);
+            }
+        }
+
+        function popSchemaList(response) {
+            $(document).ready(function () {
+                var schemas = response.message.pageSchemas;
+                for (var i = 0; i < schemas.length; i++) {
+                    var scma = schemas[i]
+                    $('#schema-list tbody').html($('#schema-list tbody').html() + "<tr><td>" + JSON.parse(scma.Name).Name + "</td><td>" + scma.ID + "</td></tr>");
+                    $('#schema-select').html($('#schema-select').html() + "<option data-val=" + scma.ID + ">" + JSON.parse(scma.Name).Name + "</option>");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            IGX.RESTful.SchemaDesignerServices.GetSchemas(popSchemaList);
+        });
+    </script>
+
+    <style type="text/css">
+        .group {
+            margin-bottom: 30px;
+            border: solid 1px lightgrey;
+            border-radius: 3%;
+            padding: 5px 5px 42px 5px;
+        }
+
+        #alert-box, #error-box {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <div id="sync-form" class="col-sm-6">
+                <h1>Site Syncer</h1>
+                <h3>
+                    Root set to <em>@pageLabel</em>
+                </h3>
+                <div>
+                    <h4>Rename Elements</h4>
+                    <p>This function renames 'Old Element Name' to 'New Element Name' for each page in the site. Note if the page has recently been synced it must first be checked in or an error will be thrown.</p>
+                    <div class="group">
+                        <div class="form-group">
+
+                            <label for="mapOld">Old Element Name</label>
+                            <input type="text" name="mapOld" class="form-control" id="mapOld" placeholder="I.E. TopCopy">
+
+                            <label for="mapNew">New Element Name</label>
+                            <input type="text" name="mapNew" class="form-control" id="mapNew" placeholder="I.E. BodyCopy">
+                        </div>
+                        <button class="btn btn-info pull-right" onclick="mapElements()">Map</button>
+                    </div>
+
+                    <h4>Sync Site</h4>
+                    <p>This function updates all pages in the site to the latest version of the specified schema. If a page in the site is not built from the specified schema it is not afffeted.</p>
+                    <div class="group">
+                        <div class="form-group">
+                            <label for="schema-select">Schema</label>
+                            <select class="form-control" id="schema-select"></select>
+                        </div>
+                        <button class="btn btn-info pull-right" onclick="syncSite()">Sync</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3 style="margin-top: 76px">Pages in this Site</h3>
+                <div id="alert-box" class="alert alert-success" role="alert">
+
+                </div>
+                <div id="error-box" class="alert alert-danger" role="alert">
+                    error
+                </div>
+                <ul>
+                    @foreach (var p in Model.Site)
+                    {
+                        <li>@p</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

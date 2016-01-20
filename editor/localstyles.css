@@ -1,0 +1,43 @@
+/* just some sample css elements */
+
+/* basic elements */
+html {
+	margin: 0px;
+	padding: 0px;
+	}
+body  { color: #555753; font: 9pt/17pt georgia; background-color: #fff; margin: 0px; padding: 0px }
+p { 
+	font: 9pt/17pt georgia; 
+	margin-top: 0px; 
+	}
+h3 { 
+	font: italic normal 12pt georgia; 
+	letter-spacing: 1px; 
+	margin-bottom: 0px; 
+	color: #7D775C;
+	}
+a:link { 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #B7A5DF;
+	}
+a:visited { 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #D4CDDC;
+	}
+a:hover, a:active { 
+	text-decoration: underline; 
+	color: #9685BA;
+	}
+acronym {
+	border-bottom: none;
+	}
+
+
+/* specific divs */
+#container  { margin: 0px; padding: 0px 175px 0px 110px; position: absolute; top: 0px; left: 0px }
+
+.underline {
+	text-decoration: underline;
+	}

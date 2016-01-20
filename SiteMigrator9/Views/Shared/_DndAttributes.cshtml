@@ -1,0 +1,36 @@
+﻿@{ 
+	string dndTypeStr = Model as string;
+	bool isIE = Request.UserAgent.Contains("MSIE");
+}
+
+dropType="@dndTypeStr"	
+	    
+@if (isIE)
+{
+	if (dndTypeStr == "nodnd")
+	{
+		@:ondragenter="dnd.cancelDrag(event)"
+	}
+	else
+	{
+		if (dndTypeStr == "multi")
+		{
+			@:ondrop="dnd.onDropMulti(event)"
+			@:onkeydown="dnd.onKeyDown(event)"
+		}
+		else if (dndTypeStr == "single")
+		{
+			@:ondrop="dnd.onDropSingle(event)"
+			@:onkeydown="dnd.onKeyDown(event)"
+		}
+		else
+		{
+			@:ondrop="dnd.onDropChildren(event)"
+		}
+	@:ondragend="dnd.onDragEnd(event)"
+	@:ondragover="dnd.onDragOver(event)"
+	@:ondragenter="dnd.onDragEnter(event)"
+	@:ondragleave="dnd.onDragLeave(event)"
+	@:ondragstart="dnd.onDragStart(event)"	
+  }
+}

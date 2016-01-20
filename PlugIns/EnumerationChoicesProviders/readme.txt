@@ -1,0 +1,1 @@
+Place Enumeration choices providers plugin dlls in this folder

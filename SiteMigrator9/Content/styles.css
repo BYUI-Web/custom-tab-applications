@@ -1,0 +1,263 @@
+/* Do not move the following rule! */
+BODY, TEXTAREA, TABLE, SELECT, INPUT, BUTTON
+	{font:10pt Trebuchet MS, Arial, Helvetica, sans-serif}
+
+
+
+BODY
+	{margin:0;}
+
+A
+	{text-decoration:none;}
+
+.AdvancedBtn, .eBtn	
+	{border:1px solid threedshadow;
+	 height:22px;
+	 width:21px;
+	 vertical-align:middle;
+	 margin-left:2px;
+	 behavior:url(editbtn.htc);}
+
+.wordBtn	
+	{border:1px solid threedshadow;
+	 color:navy;
+	 height:22px;
+	 vertical-align:middle;
+	 margin-left:2px;
+	 font-size:10pt;
+	 behavior:url(editbtn.htc);}
+
+.eBtn
+	{font-size:12pt;
+	 font-weigth:bold;}
+
+.Content, .resizeMe
+	{margin-right:15px;}
+
+.resizeMe
+	{border:thin inset;background:buttonface;height:200px;margin-top:1px;}
+
+.ImgTag
+	{margin-top:4px;}
+
+.xpimg
+	{height:22px;border:1px solid threedshadow;vertical-align:middle;position:relative;top:-3px;margin-left:5px;behavior:url(editbtn.htc);}
+
+.editTitle
+	{cursor:default;
+	 color:black;
+	 background-color:buttonface;
+	 width:100%;
+	 border-bottom:1px solid threedshadow;
+	 border-right:thin inset;}
+
+.editLabel, .displayLabel
+	{color:black;
+	 font-weight:bold;
+	 vertical-align:middle;
+	 cursor:default;}
+
+.editText, .displayText, .readonlyxpower, .xpowerElement, .editDate,  .editSelect, .layoutText, .pictureText
+	{overflow:hidden;vertical-align:middle;}
+
+.xpowerElement, .readonlyxpower, .editDate, .editSelect, .layoutText, .xpText, .pictureText
+	{width:250px;}
+
+.editText, .displayText, .Content, .resizeMe, .helpText
+	{width:500px;}
+
+.displayText, .readonlyxpower, .Content, .xpText, .helpText
+	{cursor:default;}
+
+.editText, .xpowerElement, .readonlyxpower, .editDate, .editSelect, .xpText, .layoutText, .displayText, .editLabel, .displayLabel, .resizeMe, .Content, .ImgTag, .pictureText, .helpText
+	{margin-left:18px;}
+
+.displayText, .readonlyxpower, .Content, .xpText
+	{padding:2px;margin-top:2px;border:1px threedshadow solid;background-color:gainsboro;}
+
+.editDiv
+	{margin-left:10px;margin-top:5px;margin-bottom:5px;overflow:auto;white-space :nowrap;}
+
+.icon			
+	{border:0; margin-left:4px;}
+
+.dragIcon			
+	{margin-left:4px;
+	 border:thin groove yellow;
+	 background-color:yellow;}
+
+.dc
+	{position:relative;
+	 top:2;
+	 left:14px;
+	 margin-right:4px;}
+
+.helpText
+	{font-size:8pt;
+	 vertical-align:middle;
+	 color:slateblue;
+	 padding-top:1px;}
+
+.required
+	{color:red;
+	font-style:italics;
+	font-weight:normal;}
+	
+.schemaEntry
+{
+	background-color: #dddddd;
+	border: 1px black solid;
+	padding:3px;
+	margin-bottom:3px;
+	width:150px;
+	float:right;
+	clear:none;
+}	
+.schemaEntryTarget
+{
+	background-color: #dddddd;
+	border: 1px black solid;
+	padding:3px;
+	width:150px;
+	float:left;
+	clear:left;
+}	
+
+.fieldEntry
+{
+	background-color: #dddddd;
+	border: 1px black solid;
+	padding:2px;
+	margin-bottom:2px;
+	width:120px;
+	float:right;
+	clear:right;
+	font-size:11px;
+}	
+
+.fieldIcon
+{
+	float:left;width:16px;height:16px; margin-right:4px;
+}
+
+.fieldEntryTarget
+{
+	background-color: #dddddd;
+	border: 1px black solid;
+	padding:2px;
+	margin-bottom:2px;
+	width:120px;
+	float:left;
+	clear:left;
+	font-size:11px;
+}
+
+.schemaEntryTargetLink
+{
+	background-color:#fcfcff;
+	border:dotted 1px gray;
+	width:100%;
+	float:left;
+	clear:both;
+	padding:3px;
+	margin-bottom:5px;	
+}
+
+.fieldEntryTargetLink
+{
+	background-color:#fffcfc;
+	border:dotted 1px gray;
+	width:100%;
+	padding:2px;
+	margin-bottom:3px;	
+	float:left;
+	clear:both;	
+}
+
+.schemaEntryEleMap
+{
+	background-color:#ffffff;
+	border:solid 1px gray;
+	width:100%;
+	padding:3px;
+	margin-bottom:5px;	
+	clear:both;
+	float:left;
+}
+
+.smallbuttonR
+{
+	outline: none;
+	border: none;
+	float: left;
+	width:15px;
+	height:15px;
+	line-height: 10px;
+	color:#222222;
+	font-size:10px;	
+	text-decoration: none;
+	text-align: center;
+	background:url(images/arrow-right.gif) no-repeat 0 0;	
+	margin-top:4px;
+	padding-top:0px;
+	clear:left;
+	cursor:pointer;
+}
+
+.smallbuttonD
+{
+	outline: none;
+	border: none;
+	float: left;
+	width:15px;
+	height:15px;
+	line-height: 10px;
+	color:#222222;
+	font-size:10px;	
+	text-decoration: none;
+	text-align: center;
+	background:url(images/arrow-down.gif) no-repeat 0 0;	
+	margin-top:4px;
+	padding-top:0px;
+	clear:left;
+	cursor:pointer;
+}
+
+.button
+{
+	outline: none;
+	border: none;
+	float: left;
+	width:109px;
+	height:25px;
+	line-height: 14px;
+	color:#222222;
+	font-size:12px;	
+	text-decoration: none;
+	text-align: center;
+	background:url(images/button-act.gif) no-repeat 0 0;	
+	margin-top:4px;
+	padding-top:6px;
+	clear:left;
+	cursor:pointer;
+}
+
+.button2
+{
+	outline: none;
+	border: none;
+	float: left;
+	width:109px;
+	height:25px;
+	line-height: 14px;
+	color:#222222;
+	font-size:12px;	
+	text-decoration: none;
+	text-align: center;
+	background:url(images/button-act.gif) no-repeat 0 0;	
+	margin-top:4px;
+	padding-top:6px;
+	margin-left:15px;
+	clear:none;
+	cursor:pointer;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>IngeniuxRuntimeAPIV9</id>
+    <version>9.5.0.0</version>
+    <title>Ingeniux Dynamic Site Server Runtime Library</title>
+    <authors>Ingeniux Corporation</authors>
+    <owners>Ingeniux Corporation</owners>
+    <iconUrl>http://www.ingeniux.com/prebuilt/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ingeniux Dynamic Site Server Runtime API for custom development outside of Dynamic Site Server project.</description>
+    <releaseNotes>Ingeniux Dynamic Site Server API Package</releaseNotes>
+    <copyright>Copyright 2015 - Ingeniux Corporation</copyright>
+    <tags>Ingeniux CMS DSS Dynamic Site Server MVC</tags>
+  </metadata>
+</package>

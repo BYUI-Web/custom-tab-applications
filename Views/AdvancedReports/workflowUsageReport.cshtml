@@ -1,0 +1,113 @@
+@model Ingeniux.CMS.DesignTime.Models.ExternalActionModel
+@using Ingeniux.CMS
+
+@{
+	var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+	var locale = Model.Common.CurrentLocale;
+	var l10nProvider = Model.Common.L10nProvider;
+	var action = HttpContext.Current.Request.QueryString["action"];
+
+
+	Func<List<string>> getParameters = () => new List<string>();
+
+
+	Func<string, string, string, int, object> makeColumnDefinition = (name, label, dataType, width) =>
+	{
+		var colDef = new
+		{
+			attributeName = name,
+			label = label,
+			dataType = dataType ?? "Text",
+			width = width > 0 ? width.ToString() : "100"
+		};
+		return colDef;
+
+	};
+
+
+
+	Func<List<object>> getColumns = () =>
+	{
+		List<object> columns = new List<object>();
+
+		columns.Add(makeColumnDefinition("ID", l10nProvider.RetrieveServerLocalizationItem(locale, "id"), "Text", 150));
+		columns.Add(makeColumnDefinition("workflow", l10nProvider.RetrieveServerLocalizationItem(locale, "workflowName"), "Text", 250));
+		columns.Add(makeColumnDefinition("pagesCount", l10nProvider.RetrieveServerLocalizationItem(locale, "pagesCont"), "Integer", 150));
+		columns.Add(makeColumnDefinition("lastTransitionTime", l10nProvider.RetrieveServerLocalizationItem(locale, "lastTransitionTime"), "DateTime", 170));
+
+		return columns;
+
+	};
+
+
+	Func<object> getConfiguration = () =>
+	{
+		var config = new
+		{
+			message = new
+			{
+				columns = getColumns(),
+				parameters = getParameters()
+			}
+		};
+		return config;
+	};
+
+	Func<object> getResults = () =>
+	{
+		using (Ingeniux.CMS.IUserSession session = Model.Common.ContentStore.OpenReadSession(Model.Common.CurrentUser))
+		{
+			int count;
+			IEnumerable<Ingeniux.CMS.IWorkflow> workflows = session.WorkflowAdministrator.Workflows(out count);
+			var wfReports = workflows
+				.Cast<Ingeniux.CMS.Workflow>()
+				.GroupBy(w => w.WorkflowDefinitionId)
+				.Select(g => new
+					{
+						ID = g.Key,
+						workflow = g.FirstOrDefault()
+							.ToNullHelper()
+							.Propagate(
+								wf => wf.Name)
+							.Return(string.Empty),
+						pagesCount = 1,
+						lastTransitionTime = g.Max(w => w.LastModified).ToIso8601DateString()
+					})
+				.Where(
+					wf => !string.IsNullOrWhiteSpace(wf.workflow))
+				.ToArray();
+
+			var config = new
+			{
+				message = new
+				{
+					results = new
+					{
+						content = new
+						{
+							columns = getColumns(),
+							rows = wfReports
+						}
+					}
+				}
+			};
+
+			return config;
+
+		}
+	};
+
+
+	switch (action)
+	{
+		case "getConfiguration":
+	@serializer.Serialize(getConfiguration())
+			break;
+		case "getResults":
+	@serializer.Serialize(getResults())
+			break;
+	}
+    
+    
+}
+

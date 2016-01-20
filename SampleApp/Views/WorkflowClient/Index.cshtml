@@ -1,0 +1,130 @@
+﻿@*@model Ingeniux.CMS.Applications.WorkflowContext*@
+@using Ingeniux.CMS
+
+<!--This is a demo view for the CMS ExternalAction that just changes the name of a page-->
+@{
+	
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+	string pageName = Model.Page.Name;
+
+	string transitionname = Model.Transition.Name;
+
+	ViewBag.Title = "Demo Workflow External Action";
+	ViewBag.Description = string.Format("Rename Page {0} via Transition \"{1}\"", Model.Page.Id, transitionname);
+}
+<html>
+    <head>
+        <script type="text/javascript">
+            var pageId = "@Model.Page.Id";
+        	var userId = "@Model.CurrentUser.UserId";
+            var serverURL = "@Model.ServerUrl";
+            var pageObject = {};
+
+
+            function ajaxJSON(URL, data, action) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        try {
+                            var data = eval("("+this.responseText+")");
+                        } catch (e) {
+                            data = this.responseText;
+                        }
+                        if (action && typeof (action) === "function") {
+                            action(data);
+                        }
+                    }
+                };
+                
+                xhr.open("POST", URL, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send(JSON.stringify(data));
+            }
+
+            function pageServiceAction(actionName, data, callback) {
+                ajaxJSON(serverURL + "REST/PageCommandsServices.svc/" + actionName, data, callback);
+            }
+
+            function getPageData(pageId) {
+                document.body.className = document.body.className + " ajaxLoading";
+
+                pageServiceAction("GetPageData",{id:pageId} ,function (data) {
+                    pageObject = data.message;
+                    document.body.className = document.body.className.replace(/\bajaxLoading\b/, "");
+                });
+            }
+
+            function setPageData(pageId) {
+                if (!pageObject) {
+                    return;
+                }
+                var assignedUser = pageObject.metadata.properties.assignedUser;
+                var checkedOut = pageObject.metadata.properties.checkedOut;
+                var rename = function () {
+                    pageServiceAction(
+                        "Rename",
+                        {
+                            pageId: pageId,
+                            newPageName: document.getElementById("pageName").value
+                        },
+                        function (data) {
+                            if (!data.message || data.message.error) {
+                                window.returnValue ="Workflow Error";
+                                window.close();
+                            }
+                            window.returnValue = "";
+                            window.close();
+                        }
+                    );
+                };
+
+                if (!checkedOut) {
+                    pageServiceAction(
+                        "CheckOut",
+                        {
+                            pageIds: [pageId],
+                            includeChildren: false
+                        },
+                        function (data) {
+                            rename();
+                        }
+                    );
+                    return;
+                }
+                if (assignedUser != userId) {
+                    pageServiceAction(
+                        "Assign",
+                        {
+                            pageIds: [pageId],
+                            assignTargetId: userId,
+                            assignToGroup: false,
+                            comment:"Workflow External Action Test Assignment."
+                        },
+                        function (data) {
+                            rename();
+                        }
+                    );
+                    return;
+                }
+                rename();
+                return
+            }
+
+            window.onload = function () {
+                getPageData(pageId)
+            };
+        </script>
+    </head>
+    <body>
+        <h2>@ViewBag.Title</h2>
+		<p>@ViewBag.Description</p>
+        <form action="" method="post">
+			<div>Page Name: </div>
+            <input type="text" id="pageName" name="pageName" value="@Html.Raw(pageName)"/>
+            <input type="button" value="Rename" onclick="setPageData(pageId)" name="submitButton" id="submitButton" />
+        </form>
+    </body>
+</html>
+
+

@@ -1,0 +1,47 @@
+﻿@model Ingeniux.CMS.ExecuteElementData
+@using Ingeniux.CMS;
+
+@{
+	//this sample 
+	ViewBag.Title = "Sample CMS Dynamic Execute Edit Form Application";
+
+	var attributes = Model.attributes;
+	var modelStr = Model.ToJson();
+}
+
+<h2>@ViewBag.Title</h2>
+<script type="text/javascript" src="@Html.Raw(Model.AssetBaseUrl)Scripts/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="@Html.Raw(Model.AssetBaseUrl)Scripts/jquery.json-2.4.js"></script>
+<script type="text/javascript">
+	var json = @Html.Raw(modelStr);
+	var jsonStr = $.toJSON(json);
+	window.name = jsonStr;
+
+	function setDexEleValue(evt) {
+		var form = $("#emailConfigForm")[0];
+
+		json.attributes.ReceiverEmail = form.receiver.value;
+		json.attributes.Subject = form.subject.value;
+		json.attributes.Body = form.body.value;
+
+		//set the json string on the window name
+		var jsonStr = $.toJSON(json);
+
+		window.name = jsonStr;
+
+		evt.preventDefault();
+
+		return false;
+	}
+</script>
+<form id="emailConfigForm" onsubmit="setDexEleValue(event);">
+	<div>Receiver:</div>
+	<div><input name="receiver" value="@attributes.Item("ReceiverEmail").Default()"/></div>
+	<div>Subject:</div>
+	<div><input name="subject" value="@attributes.Item("Subject").Default()" /></div>
+	<div>Body:</div>
+	<div><textarea name="body">@attributes.Item("Body").Default()</textarea></div>
+	<div>
+		<input type="submit" value="Set" />
+	</div>
+</form>

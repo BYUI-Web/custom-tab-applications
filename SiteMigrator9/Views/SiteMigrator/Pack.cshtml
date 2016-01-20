@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+	@Html.Partial("_ContentPanePageHeader")
+
+	<body background="" bgcolor="white">
+		<table width=100%  >
+			<tr valign=middle>
+				<td valign="top" style="height:30px" colspan=2 >
+					<span class="labelText" >Package pieces of the Site to be moved</span>
+				</td>
+			</tr>
+			<tr valign="bottom">
+				<td style="border:1px solid gray;padding:3px;">
+					<table width=100% >
+						<tr>
+							<td class="pageItemLabel">
+								Drag in the pages to be packed
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<input type="text" name="rootXIDs" id="rootXIDs" 
+								dojoType="igx:DropTargetInIframe"
+								@Html.Partial("_DndAttributes", "multi")
+								size="71"
+								style="text-align:left"
+								value = "@(Request.QueryString["root"] ?? "")"
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td class="pageItemLabel">
+								Name the package</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<input id="packageName" type="text" size="71"
+								@Html.Partial("_DndAttributes","nodnd")
+								NAME="packageName"/>
+								<!--
+								<br/>
+								<input type=checkbox id="copySS">Copy Schemas and Stylesheets
+								-->
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><input type="checkbox" style="width:20px;" id="checkbox_preserveCategorization" onchange="changeCategorizationSetting(event)"/>&nbsp;Preserve categorization for pages</label><br />
+								<label><input type="checkbox" style="width:20px;" id="checkbox_copyTaxonomy" disabled="true" />&nbsp;Package associated categories</label>							
+							</td>
+						</tr>								
+					</table>
+				</td>
+				<td width="160px" rowspan="4" valign="bottom" align="left">
+					<input type=button onclick="integrityCheck()" ID="intCheckButton" value="Integrity Check" NAME="intCheckButton" style="clear:both;margin-bottom:10px;" />						
+					<input type=button onclick="pack()" id="packButton" value="Package Now" NAME="packButton" /><br />
+					<label><input type=checkbox id="removePages" style="width:20px;" NAME="removePages" />&nbsp;As Archive</label>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

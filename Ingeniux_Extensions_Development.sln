@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Extensions_Development_Harness", "API_Extensions_Development_Harness.csproj", "{5C7B4109-C5BC-4C61-A63F-96823306A477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom_Apps_Development_Examples", "SampleApp\Custom_Apps_Development_Examples.csproj", "{06437BC7-7645-45C3-BF67-E38EC4D56AAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageBuilderExtension_Sample_FoundationFormatter", "PlugIns\PresentationFormatters\FoundationFormatter\PageBuilderExtension_Sample_FoundationFormatter.csproj", "{8979E801-B547-4BE2-AFBC-C5ECC374D0AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automated_Task_Standard_Operations", "automated\Standard_Operations\Automated_Task_Standard_Operations.csproj", "{1BE2E663-0F2C-489C-930F-8C2F79BF5642}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{97C94BC8-B4E1-454D-B80A-ECF5B06CBB26}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageBuilderExtension_GiersdorfFormatter", "PlugIns\PresentationFormatters\PageBuilderExtension_GiersdorfFormatter\PageBuilderExtension_GiersdorfFormatter.csproj", "{238CBF9E-A3A0-4AAB-8D72-44A86521E985}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 6
+		SccProjectUniqueName0 = API_Extensions_Development_Harness.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = automated\\Standard_Operations\\Automated_Task_Standard_Operations.csproj
+		SccLocalPath1 = automated\\Standard_Operations
+		SccProjectUniqueName2 = SampleApp\\Custom_Apps_Development_Examples.csproj
+		SccLocalPath2 = SampleApp
+		SccProjectUniqueName3 = PlugIns\\PresentationFormatters\\PageBuilderExtension_GiersdorfFormatter\\PageBuilderExtension_GiersdorfFormatter.csproj
+		SccLocalPath3 = PlugIns\\PresentationFormatters\\PageBuilderExtension_GiersdorfFormatter
+		SccProjectUniqueName4 = PlugIns\\PresentationFormatters\\FoundationFormatter\\PageBuilderExtension_Sample_FoundationFormatter.csproj
+		SccLocalPath4 = PlugIns\\PresentationFormatters\\FoundationFormatter
+		SccLocalPath5 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C7B4109-C5BC-4C61-A63F-96823306A477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7B4109-C5BC-4C61-A63F-96823306A477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7B4109-C5BC-4C61-A63F-96823306A477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7B4109-C5BC-4C61-A63F-96823306A477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06437BC7-7645-45C3-BF67-E38EC4D56AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06437BC7-7645-45C3-BF67-E38EC4D56AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06437BC7-7645-45C3-BF67-E38EC4D56AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06437BC7-7645-45C3-BF67-E38EC4D56AAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8979E801-B547-4BE2-AFBC-C5ECC374D0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8979E801-B547-4BE2-AFBC-C5ECC374D0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8979E801-B547-4BE2-AFBC-C5ECC374D0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8979E801-B547-4BE2-AFBC-C5ECC374D0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE2E663-0F2C-489C-930F-8C2F79BF5642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE2E663-0F2C-489C-930F-8C2F79BF5642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE2E663-0F2C-489C-930F-8C2F79BF5642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE2E663-0F2C-489C-930F-8C2F79BF5642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{238CBF9E-A3A0-4AAB-8D72-44A86521E985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{238CBF9E-A3A0-4AAB-8D72-44A86521E985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{238CBF9E-A3A0-4AAB-8D72-44A86521E985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{238CBF9E-A3A0-4AAB-8D72-44A86521E985}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

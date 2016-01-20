@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ActionTypes>
+	<ActionType Name ="IGX_ACTION_ARCHIVE_PAGE">
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_BRIDGE">
+		<Attribute Name="Target_Workflow"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_CHECKIN">
+		<Attribute Name="CheckInPubTargets"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_CHECKOUT">
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_CUSTOM">
+		<Attribute Name="ProgID"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_EXTERNAL_CLIENT">
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_GROUP_NOTIFICATION_MAIL">
+		<Attribute Name="GroupID"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_MARK_FOR_PUBLISH">
+		<Attribute Name="MarkPubTargets"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_REPUBLISH">
+		<Attribute Name="PubTarget"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_REVERT">
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_SET_LIFETIME_ATTRIBUTES">
+		<Attribute Name="StartDate" Optional="True"/>
+		<Attribute Name="EndDate" Optional="True"/>
+	</ActionType>
+	<ActionType Name ="IGX_ACTION_UNMARK_FOR_PUBLISH">
+		<Attribute Name="MarkPubTargets"/>
+	</ActionType>
+</ActionTypes>

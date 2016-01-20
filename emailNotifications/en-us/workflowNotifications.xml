@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EmailTemplate>
+	<Subject>%siteName% - %workflowName% Notification - %pageName% - %pageId%</Subject>
+	<Body>
+		<![CDATA[	
+		<p><strong>Workflow Notification</strong></p>
+		<p><em><a href="mailto:%workingUserEmail%">%workingUserName%</a> </em>advanced the item <em><a href="%siteUrl%?ID=%pageId%">%pageName% (%pageId%)</a> </em>through the "<em>%transitionName%</em>" transition in the "<em>%workflowName%</em>" workflow, and assigned it to <em><a href="mailto:%nextUserEmail%">%nextUserName%</a></em></p>
+		<p> </p>
+		<p><strong>Comments from Assigning User:</strong>
+		<br /><em>%comments%</em></p>
+		<p> </p>
+		<p><strong>View Item:</strong><br/><a href="%siteUrl%?ID=%pageId%">%siteUrl%?ID=%pageId%</a></p>
+		]]>	
+	</Body>
+</EmailTemplate>

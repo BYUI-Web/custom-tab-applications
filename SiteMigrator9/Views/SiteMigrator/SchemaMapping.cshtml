@@ -1,0 +1,166 @@
+﻿@*@model Ingeniux.CMS.SiteMigrator.Models.SchemaMappingModel*@
+
+@{
+	Layout = null;
+
+	var defaultRoot = "";
+
+	string packagePath = Model.package;
+}
+
+<html>
+	<meta http-equiv="Content-Type" content="text/html; CHARSET=utf-8" />
+	<meta http-equiv="Pragma" content="no-cache"/> 				
+	@if (string.IsNullOrWhiteSpace(packagePath))
+	{
+
+		<script language=javascript>
+			alert("No package selected to define schema mapping");
+			window.close();
+		</script>
+	}
+
+	<script language="javascript">
+		djConfig = { isDebug: false, baseScriptUri: "@ViewBag.DojoFolder" };
+		var preMaps = @Html.Raw(Model.preMaps);
+		var loadGif = "@(ViewBag.LoaderGif)";
+	</script>
+
+	<script language="javascript" src="@ViewBag.DojoPath" ></script>	
+	<script language="javascript" src="@ViewBag.ScriptPath"></script>
+	<head>
+		<title>Ingeniux CMS - Site Migrator - Schema Mapping Utility</title>
+		<link type="text/css" rel="stylesheet" href="@ViewBag.StylesheetPath"/>
+		<style type="text/css">
+			#xslTarget {
+				border-top: thin inset;
+				overflow: auto;
+				width: 100%;
+				padding-top: 12px;
+			}
+
+			#spanPageName {
+				padding-left: 5px;
+				font-weight: bold;
+			}
+
+			.pageItem {
+				text-align: left;
+				padding-left: 10px;
+			}
+
+			.pageItemLabel {
+				font-weight: bold;
+				margin-right: 3px;
+			}
+
+			.headerDiv {
+				width: 100%;
+				padding-top: 2px;
+				white-space: nowrap;
+			}
+
+			.editText, .layoutText, .xpowerElement select {
+				width: 400px;
+				text-align: right;
+			}
+
+			#error {
+				color: red;
+			}
+		</style>		
+	</head>
+	<body background="" bgcolor="white" onresize="onResize()">
+		<div id="loadingMsg">
+			Analyzing schemas for target site. Please wait...
+			<img style="margin-left:10px;" id="loaderGifImg" src="@ViewBag.LoaderGif"><br/>
+		</div>
+
+		<div id="container" style="width:100%;border:20px solid white;display:none;clear:both;">
+			<input type=hidden id="packagePath" value="@Model.package">
+		
+			<div id=desc>
+			<h4>
+				Schema Mapping Utility
+			</h4>
+			<p>
+				Please drag the target site schemas to map to the original schemas from the package. Any unmapped
+				original schemas will be used for page creation.
+			</p>
+			<p>
+				Any unmapped schema will cause the package stylesheets to be copied over.			
+			</p>
+			</div>
+			<div style="border:1px solid black;padding:10px;float:left;" id="border">
+				<div id="tgtSchemas" style="width:170px;float:right;clear:none;overflow-y:auto;overflow-x:hidden;">
+					<h4 align=right>
+						Target Site Schemas
+					</h4>
+				@for (int i = 0; i < Model.targetSchemas.Length; i++)
+				{
+					var schema = Model.targetSchemas[i];
+					string tip = string.Format("File Name: {0}\r\nRoot Tag: {1}Stylesheet: {2}\r\nView: {3}", schema.name, schema.tag, schema.defaultStylesheet, schema.viewName);
+					
+					<div title="@tip" id="tgt@(i)_@(schema.tag)" class="schemaEntry" 
+						onselectstart="return false;" fileName="@schema.fileName" 
+						ghost="false" schemaName="@schema.name" style="cursor:pointer;" ><span style="width:100%;cursor:pointer"><img src="@schema.type" style="margin-right:6px;" ></img>@schema.name</span></div>		
+				}
+				</div>
+
+				<div id="origSchemas" style="width:750px;float:left;clear:none;overflow:auto;">
+					<h4 align=left>
+						Original Schemas
+					</h4>
+				@for (int i=0; i< Model.sourceSchemas.Length; i++)
+				{
+					var oSchema = Model.sourceSchemas[i];
+					string oTip = string.Format("File Name: {0}\r\nRoot Tag: {1}Stylesheet: {2}\r\nView: {3}",
+						oSchema.name, oSchema.tag, oSchema.defaultStylesheet, oSchema.viewName);
+					string borderStyle = (oSchema.mappedTargetSchema != null) ? "style='border:solid blue 1px'" : "";
+		 
+					string childDisplayStyle = (!oSchema.mapped) ? " style='display:none;'" : "";
+		
+					string schemaFileName = oSchema.fileName;
+		 
+					<div id="link_@(i)" class="schemaEntryTargetLink" fileName="@(schemaFileName)"
+						schemaName ="@oSchema.name"
+						@Html.Raw(borderStyle)><div title="@oTip" id="orig_@(i)" class="schemaEntryTarget" onselectstart="return false;"><span 
+								style="width:100%;cursor:pointer"><b><img 
+									src="@oSchema.type" style="margin-right:6px;"  />@oSchema.name</b></span></div>
+						@if (oSchema.mappedTargetSchema != null)
+						{
+						<div title="@oTip" class="schemaEntry" onselectstart="return false;" 
+							ghost="true"
+							fileName="@oSchema.mappedTargetSchema.fileName"
+							schemaName ="@oSchema.mappedTargetSchema.name"
+							><span style="width:100%;cursor:pointer" onselectstart="return false"><img 
+								src='@oSchema.mappedTargetSchema.type' style="margin-right:6px;" ></img>@oSchema.mappedTargetSchema.name</span></div>						
+														
+						}
+						<div id="eleMapButton_@(i)" onclick="showEleMapping('eleMap_@(i)', 'eleMapButton_@(i)')" class="smallbuttonR"
+							@Html.Raw(childDisplayStyle)
+							></div></div><div id="eleMap_@(i)" class="schemaEntryEleMap" origSchema="@oSchema.name" style="display:none"></div>	
+				}
+				</div>
+			</div>
+		</div>
+		<div id="buttons" style="float:left;clear:left; display:none; margin:20px;">
+			<input type="button" value="Map Same Names" onclick="mapSameNameSchemas()" >&#160;
+			<input onclick="clearSchemaMapping()" type=button value="Clear Schema Mapping">
+			&#160;&#160;&#160;&#160;
+			<input type="button" value="Save Mapping Temporarily" onclick="saveMapping()" >
+			<input type="button" value="Save Mapping and Close" onclick="saveMapping(true)" >
+		</div>
+		<script language=javascript>
+			dojo.addOnLoad( function(e)
+			{						
+				dojo.byId("loadingMsg").style.display = "none";
+				dojo.byId("container").style.display = "block";
+				initDnD();
+				onResize();
+				dojo.byId("buttons").style.display = "block";
+			});
+		</script>
+	</body>
+</html>
+

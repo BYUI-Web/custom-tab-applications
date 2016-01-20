@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReplicationTargetTypes>
+  <TargetType Name="File Replication Target" Type="FileReplicationTarget"/>
+  <TargetType Name="Secure FTP Replication Target" Type="SFTPReplicationTarget"/>
+  <TargetType Name="FTP/SSL Replication Target" Type="FTPSReplicationTarget"/>
+  <TargetType Name="FTP Replication Target" Type="FTPReplicationTarget"/>
+</ReplicationTargetTypes>

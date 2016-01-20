@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContextMenuConfig Version="8.0">
+  <Template>
+    <Command Name="EmptyRecycleFolder" IsDisplayed="True" Caption="Empty Recycle Folder" ImageFile="delete16.png" />
+    <Command Name="New" IsDisplayed="True" HasSubMenu="True" Caption="New" ImageFile="new16.png">
+      <Command Name="Folder" IsDisplayed="True" Caption="Folder" ImageFile="folder16.png" />
+      <separator Name="separator1" IsDisplayed="True" />
+      <Command Name="Page" IsDisplayed="True" Caption="Page" ImageFile="page16.png" />
+      <Command Name="Component" IsDisplayed="True" Caption="Component" ImageFile="component16.png" />
+    </Command>
+    <Command Name="Rename" IsDisplayed="True" Caption="Rename" ImageFile="rename16.png" />
+    <Command Name="Refresh" IsDisplayed="True" Caption="Refresh" ImageFile="refresh16.png" />
+    <separator Name="separator2" IsDisplayed="True" />
+    <Command Name="Cut" IsDisplayed="True" Caption="Cut" ImageFile="cut16.png" />
+    <Command Name="Copy" IsDisplayed="True" Caption="Copy" ImageFile="copy16.png" />
+    <Command Name="Paste" IsDisplayed="True" Caption="Paste" ImageFile="paste16.png" />
+    <Command Name="Delete" IsDisplayed="True" Caption="Delete" ImageFile="delete16.png" />
+    <separator Name="separator3" IsDisplayed="True" />
+    <Command Name="AddToWorkflow" IsDisplayed="True" Caption="Add to Workflow" ImageFile="advance16.png" />
+    <Command Name="RemoveFromWorkflow" IsDisplayed="True" Caption="Remove from Workflow" ImageFile="revert16.png" />
+    <Command Name="AssignTo" IsDisplayed="True" HasSubMenu="True" Caption="Assign To..." ImageFile="assignto16.png">
+      <Command Name="AssignToMe" IsDisplayed="True" Caption="Me" ImageFile="user16.png" />
+      <Command Name="AssignToUser" IsDisplayed="True" Caption="User" ImageFile="user16.png" />
+      <Command Name="AssignToGroup" IsDisplayed="True" Caption="Group" ImageFile="usergroup16.png" />
+    </Command>
+    <Command Name="Advance" IsDisplayed="True" Caption="Advance" ImageFile="advance16.png" />
+    <Command Name="ShowHistory" IsDisplayed="True" Caption="Show History" ImageFile="differences16.png" />
+    <Command Name="SendMail" IsDisplayed="True" Caption="Send Mail" ImageFile="mailto16.png" />
+    <separator Name="separator4" IsDisplayed="True" />
+    <Command Name="CheckOut" IsDisplayed="True" HasSubMenu="True" Caption="Check Out" ImageFile="checkout16.png">
+      <Command Name="CheckOutPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="CheckOutPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <Command Name="CheckIn" IsDisplayed="True" HasSubMenu="True" Caption="Check In" ImageFile="checkin16.png">
+      <Command Name="CheckInPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="CheckInPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <Command Name="PropagateCheckIn" IsDisplayed="True" HasSubMenu="True" Caption="Propagate publishes to latest version" ImageFile="checkin16.png">
+      <Command Name="PropagateCheckInPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="PropagateCheckInPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <Command Name="UndoCheckOut" IsDisplayed="True" HasSubMenu="True" Caption="Undo Check Out" ImageFile="undocheckout16.png">
+      <Command Name="UndoCheckOutPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="UndoCheckOutPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <Command Name="Rollback" IsDisplayed="True" Caption="Rollback" ImageFile="revert16.png" />
+    <separator Name="separator5" IsDisplayed="True" />
+    <Command Name="MarkForPublish" IsDisplayed="True" HasSubMenu="True" Caption="Mark/Unmark For Publish" ImageFile="markforpublish16.png">
+      <Command Name="MarkForPublishPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="MarkForPublishPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <Command Name="Preview" IsDisplayed="True" Caption="Preview" ImageFile="preview16.png" />
+    <Command Name="Publish" IsDisplayed="True" HasSubMenu="True" Caption="Publish" ImageFile="publish16.png">
+      <Command Name="PublishPage" IsDisplayed="True" Caption="Page" ImageFile="document16.png" />
+      <Command Name="PublishPageAndChildren" IsDisplayed="True" Caption="Page and Children" ImageFile="revision16.png" />
+    </Command>
+    <separator Name="separator6" IsDisplayed="True" />
+    <Command Name="PageProperties" IsDisplayed="True" Caption="Page Properties" ImageFile="page16.png" />
+  </Template>
+</ContextMenuConfig>

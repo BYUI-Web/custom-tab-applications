@@ -1,0 +1,90 @@
+﻿@*@model Ingeniux.CMS.SiteMigrator.Models.SchemaFieldMappingModel*@
+@{
+	Layout = null;
+
+	string escapeOrigSchemaName = Uri.EscapeDataString(ViewBag.oldSchemaName);
+}
+		<div style="width:100%;border:5px solid white;clear:both;float:left;" class="fieldMappingContainer">
+			<div >
+
+			<p>
+				Please drag the target schema fields to map to the original schema fields from the package
+				Note: mapping of xpower elements will mean they will be copied over. There will not be any 
+				manipulation on xpower elements except their names and labels.		
+			</p>
+			</div>
+			<div style="width:100%;border:1px solid gray;padding:10px;float:left;"
+			    ><div id="tgtEles_@escapeOrigSchemaName" class="tgtEles" style="width:142px;float:right;clear:none;height:300px;overflow-y:auto;">
+				<h5 align=right>
+					Target Fields
+				</h5>
+				@for (int i = 0; i < Model.newFields.Length; i++)
+				{
+					var newField = Model.newFields[i];
+					string display = newField.mapped ? "style=\"display:none;\"" : "";	
+		
+					<div id="tgt@(i)_@(newField.name)" class="fieldEntry" onselectstart="return false;"
+						fieldName="@newField.name" ghost="false"
+						@Html.Raw(display)
+						><span style="width:100%;cursor:pointer">
+							<!-- icon -->
+							<img class="fieldIcon" src="@(ViewBag.CMSIconsPath + newField.icon)" />
+							@newField.label
+						</span>							
+					</div>					
+				}
+				</div>
+						
+				<div id="origEles_@escapeOrigSchemaName" style="width:70%;float:left;clear:none;height:300px;overflow-y:auto;" class="origEles">
+				<h5 align=left>
+					Original Fields
+				</h5>
+				@for (int i = 0; i < Model.oldFields.Length; i++)
+				{
+					var oldField = Model.oldFields[i];
+
+					string fieldMapStyle = "";
+					if (oldField.mappedField != null)
+					{
+						fieldMapStyle = string.Format("style=\"border:solid {0} 1px;\"",
+							oldField.type == oldField.mappedField.type ?
+							"#990000" : "#9900ff");
+					}
+					<div id="fieldEntryLink_@i" class="fieldEntryTargetLink" origSchema="@escapeOrigSchemaName"
+						fieldName="@oldField.name"
+						@Html.Raw(fieldMapStyle)
+						><div id="orig_@i" class="fieldEntryTarget" onselectstart="return false;"
+							><span style="width:100%;cursor:pointer"
+							    ><img class="fieldIcon" src="@(ViewBag.CMSIconsPath + oldField.icon)" />									
+								@oldField.label
+							</span>							
+						</div>
+						@if (oldField.mappedField != null)
+						{
+						<div class="fieldEntry" onselectstart="return false;"
+							fieldName="@oldField.mappedField.name" ghost="true"
+							><span style="width:100%;cursor:pointer">
+								<!-- icon -->
+								<img class="fieldIcon" src="@(ViewBag.CMSIconsPath + oldField.mappedField.icon)" />
+								@oldField.mappedField.label
+							</span>							
+						</div>							
+						}
+					</div>				
+				}
+				</div>			
+			</div>
+		</div>
+		<div style="float:left;clear:left;width:280px;">
+			<span onclick="clearFieldMapping('@ViewBag.divID', '@ViewBag.oldSchemaName')"  class="button2">
+			Clear Mapping</span>
+			<span onclick="mapSameNameFields('@ViewBag.divID', '@ViewBag.oldSchemaName')"  class="button2">
+			Map same names</span>
+		</div>
+		<script language=javascript>
+			dojo.event.connect(dojo, "loaded", function (e) {
+				dojo.byId("loadingMsg").style.display = "none";
+				dojo.byId("container").style.display = "block";
+				initDnD();
+			});
+		</script>

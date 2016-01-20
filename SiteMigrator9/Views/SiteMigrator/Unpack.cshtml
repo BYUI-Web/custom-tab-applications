@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+	@Html.Partial("_ContentPanePageHeader")
+
+	<body background="" bgcolor="white">
+			<table width=100% >
+				<tr>
+					<td colspan="2" valign="top" style="height:20px">
+						<span class="labelText">Unpack a package to current site</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="border:1px solid gray; padding:3px;">
+						<table width="100%">
+							<tr>					
+								<td class="pageItemLabel">
+									Pick a package</td>
+							</tr>
+							<tr>
+								<td align="right">
+									<table width="100%" style="width:100%" cellpadding=0 cellspacing=0 border=0 ID="Table1">
+										<tr valign=top>
+											<td>
+												<div id="loadPackList" style="width:100%;display:none;">
+													Loading Package List <img src="@(ViewBag.AssetsPath)Content/images/ajax-loader.gif">
+												</div>
+												<select id="packageNameUnpack" name="packageNameUnpack" onchange="onPackageSelect"
+													style="width:100%"
+													@Html.Partial("_DndAttributes",  "nodnd")>
+													</select>&#160;					
+											</td>
+											<td width="10px"></td>
+											<td width="100px">
+												<input type=button value="Check Package"
+													onclick="openTreeDialog('treeDialog')"
+													 ID="Button2" NAME="Button2">
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>					
+							<tr>
+								<td class="pageItemLabel">
+									Drag in the page to expand the package at</td>
+							</tr>
+							<tr>
+								<td align="right">
+									<input type="text" name="rootXIDs" id="unpackRoot" 
+									size="71" 
+									dojoType="igx:DropTargetInIframe"
+									@Html.Partial("_DndAttributes", "single")						
+									style="text-align:left"
+									value ="@(ViewBag.RootValue)"					
+									/>
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<label><input type="checkbox" id="checkbox_applyCategorization" style="width:20px" onchange="changeUnpackCategorizationSetting(event)"/>&nbsp;Apply page original categorization with matching category IDs.</label>
+									<br/>
+									<label><input type="checkbox" id="checkbox_addCategories" style="width:20px" disabled/>&nbsp;Create categories from package.</label>
+									<br/>									
+									<label><input type="checkbox" id="keepPageIds" style="width:20px"/>&nbsp;Keep original page ids</label>
+								</td>
+							</tr>					
+						</table>
+					</td>
+					<td width="170px" align="center" valign="bottom">						
+						<select id="pageCreation" onchange="showHideMappingButton()" style="width:160px;margin-bottom:5px;display:none;" NAME="pageCreation">
+                            <option value="new">Map to New Schemas</option>
+							<option value="orig">Use Original Schemas</option>							
+						</select>
+						<span id="mapButtonSpan">
+							<input type="button" value="Define Schema Mapping" style="width:160px;margin-bottom:5px;"
+								onclick="openMapping()" ID="Button1" NAME="Button1">
+						</span>
+						<input type="button"   onclick="unpack()" id="unpackButton" value="Expand the package" style="width:160px;">				
+					</td>
+				</tr>
+			
+			</table>
+
+	</body>
+</html>

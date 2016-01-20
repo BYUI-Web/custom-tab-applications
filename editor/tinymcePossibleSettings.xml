@@ -1,0 +1,155 @@
+<Data>
+  <Buttons>
+    <Button>bold</Button>
+    <Button>italic</Button>
+    <Button>underline</Button>
+    <Button>strikethrough</Button>
+    <Button>justifyleft</Button>
+    <Button>justifycenter</Button>
+    <Button>justifyright</Button>
+    <Button>justifyfull</Button>
+    <Button>bullist</Button>
+    <Button>numlist</Button>
+    <Button>outdent</Button>
+    <Button>indent</Button>
+    <Button>cut</Button>
+    <Button>copy</Button>
+    <Button>paste</Button>
+    <Button>pasteword</Button>
+    <Button>pastetext</Button>
+    <Button>undo</Button>
+    <Button>redo</Button>
+    <Button>link</Button>
+    <Button>unlink</Button>
+    <Button>image</Button>
+    <Button>help</Button>
+    <Button>code</Button>
+    <Button>hr</Button>
+    <Button>formatselect</Button>
+    <Button>paste</Button>
+    <Button>fontselect</Button>
+    <Button>fontsizeselect</Button>
+    <Button>styleselect</Button>
+    <Button>sub</Button>
+    <Button>sup</Button>
+    <Button>forecolor</Button>
+    <Button>backcolor</Button>
+    <Button>forecolorpicker</Button>
+    <Button>backcolorpicker</Button>
+    <Button>charmap</Button>
+    <Button>visualaid</Button>
+    <Button>anchor</Button>
+    <Button>blockquote</Button>
+  </Buttons>
+  <Plugins>
+    <Plugin name="igxcontextmenu" required="true"></Plugin>
+    <Plugin name="igxpaste" required="true"></Plugin>
+    <Plugin name="igxlink" required="true"></Plugin>
+    <Plugin name="safari" required="true"></Plugin>
+    <Plugin name="inlinepopups" required="true"></Plugin>
+    <Plugin name="advhr">
+      <Button>advhr</Button>
+    </Plugin>
+    <Plugin name="advimage">
+    </Plugin>
+    <Plugin name="directionality">
+      <Button>ltr</Button>
+      <Button>rtl</Button>
+    </Plugin>
+    <Plugin name="emotions">
+      <Button>emotions</Button>
+    </Plugin>
+    <Plugin name="flash"></Plugin>
+    <Plugin name="fullpage">
+      <Button>fullpage</Button>
+    </Plugin>
+    <Plugin name="fullscreen">
+      <Button>fullscreen</Button>
+    </Plugin>
+    <Plugin name="insertdatetime">
+      <Button>insertdate</Button>
+      <Button>inserttime</Button>
+    </Plugin>
+    <Plugin name="layer">
+      <Button>moveforward</Button>
+      <Button>movebackward</Button>
+      <Button>absolute</Button>
+      <Button>insertlayer</Button>
+    </Plugin>
+    <Plugin name="media">
+      <Button>media</Button>
+    </Plugin>
+    <Plugin name="nonbreaking">
+      <Button>nonbreaking</Button>
+    </Plugin>
+    <Plugin name="noneditable"></Plugin>
+    <Plugin name="print">
+      <Button>print</Button>
+    </Plugin>
+    <Plugin name="searchreplace">
+      <Button>search</Button>
+      <Button>replace</Button>
+    </Plugin>
+    <Plugin name="igxspellchecker">
+      <Button>igxspellchecker</Button>
+    </Plugin>
+    <Plugin name="style">
+      <Button>styleprops</Button>
+    </Plugin>
+    <Plugin name="table">
+      <Button>table</Button>
+      <Button>delete_table</Button>
+      <Button>delete_col</Button>
+      <Button>delete_row</Button>
+      <Button>col_after</Button>
+      <Button>col_before</Button>
+      <Button>row_after</Button>
+      <Button>row_before</Button>
+      <Button>row_props</Button>
+      <Button>cell_props</Button>
+      <Button>split_cells</Button>
+      <Button>merge_cells</Button>
+    </Plugin>
+    <Plugin name="visualchars">
+      <Button>visualchars</Button>
+    </Plugin>
+    <Plugin name="xhtmlxtras">
+      <Button>cite</Button>
+      <Button>acronym</Button>
+      <Button>abbr</Button>
+      <Button>del</Button>
+      <Button>ins</Button>
+      <Button>attribs</Button>
+    </Plugin>
+  </Plugins>
+  <BlockFormats>
+    <BlockFormat>p</BlockFormat>
+    <BlockFormat>address</BlockFormat>
+    <BlockFormat>pre</BlockFormat>
+    <BlockFormat>h1</BlockFormat>
+    <BlockFormat>h2</BlockFormat>
+    <BlockFormat>h3</BlockFormat>
+    <BlockFormat>h4</BlockFormat>
+    <BlockFormat>h5</BlockFormat>
+    <BlockFormat>h6</BlockFormat>
+  </BlockFormats>
+  <Fonts>
+		<Font Name="Andale Mono">andale mono,times</Font>
+		<Font Name="Arial">arial,helvetica,sans-serif</Font>
+		<Font Name="Arial Black">arial black,avant garde</Font>
+		<Font Name="Book Antiqua">book antiqua,palatino</Font>
+		<Font Name="Comic Sans MS">comic sans ms,sans-serif</Font>
+		<Font Name="Courier New">courier new,courier</Font>
+		<Font Name="Georgia">georgia,palatino</Font>
+		<Font Name="Helvetica">helvetica</Font>
+		<Font Name="Impact">impact,chicago</Font>
+		<Font Name="Symbol">symbol</Font>
+		<Font Name="Tahoma">tahoma,arial,helvetica,sans-serif</Font>
+		<Font Name="Terminal">terminal,monaco</Font>
+		<Font Name="Times New Roman">times new roman,times</Font>
+		<Font Name="Trebuchet MS">trebuchet ms,geneva</Font>
+		<Font Name="Verdana">verdana,geneva</Font>
+		<Font Name="Webdings">webdings</Font>
+		<Font Name="Wingdings">wingdings,zapf dingbats</Font>
+  </Fonts>
+</Data>

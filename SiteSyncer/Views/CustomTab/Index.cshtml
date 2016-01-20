@@ -1,0 +1,28 @@
+﻿@model Ingeniux.CMS.Applications.PageContext
+@using Ingeniux.CMS;
+
+@{
+	ViewBag.Title = "Sample CMS Custom Tab Application";
+	IPage page = Model.Page;
+	string pageLabel = page.ToNullHelper()
+		.Propagate(
+			p => string.Format("{0} [{1}]", p.Name, p.Id))
+		.Return("No Page Specified");
+		
+	IPublishingTarget pubTarget = Model.CurrentPublishingTarget;
+	string pubTargetLabel = pubTarget.ToNullHelper()
+		.Propagate(
+			p => p.Name)
+		.Return("No Publishing Target Specified");
+		
+	IUser user = Model.CurrentUser;
+	string userLabel = user.ToNullHelper()
+		.Propagate(
+			u => string.Format("{0} - {1}", u.Name, u.UserId))
+		.Return("No User Specified");
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Current Page: @pageLabel</p>
+<p>Current Publishing Target: @pubTargetLabel</p>
+<p>Current User: @userLabel</p>

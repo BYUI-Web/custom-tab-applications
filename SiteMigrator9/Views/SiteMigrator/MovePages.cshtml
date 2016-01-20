@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+
+
+	@Html.Partial("_ContentPanePageHeader")
+
+	<body background="" bgcolor="white">
+			<table width=100%  >
+				<tr>
+					<td colspan="3" valign="top" style="height:20px">
+						<span class="labelText" >Batch move a list of page to a specific root</span>
+					</td>
+				</tr>
+				<tr>
+					<td style="border: 1px solid gray; padding:3px">
+						<table width="100%">
+							<tr valign=top>
+								<td class="pageItemLabel">
+									Drag in pages from tree to be moved. 
+									<br>
+									Hold down "Ctrl" key and drag the page in will add the page's children</td>
+								<td width=10 style="border-left:1px solid gray" rowspan="2">&#160;</td>									
+								<td class="pageItemLabel">
+									Drag in the target page to move the pages under</td>	
+							</tr>
+							<tr>
+								<td align="right" width=110>
+									<textarea  id="movePage_idList" style="height:105px;width:100%;resize:none;"										
+									dojoType="igx:DropTargetInIframe"
+									@Html.Partial("_DndAttributes", "children")
+									 NAME="movePage_idList"></textarea>
+								</td>	
+								<td align="right" width=90>
+									<input type="text" name="movePage_target" id="movePage_target"
+									dojoType="igx:DropTargetInIframe"
+									@Html.Partial("_DndAttributes", "single")
+									/>
+								</td>															
+							</tr>
+						</table>
+					</td>
+					<td width="140px" valign="bottom">
+						<input type=button onclick="moveFuncs.initialize()" id="moveButton" value="Move now" NAME="packButton">
+					</td>
+				</tr>
+			
+			</table>
+	</body>
+</html>

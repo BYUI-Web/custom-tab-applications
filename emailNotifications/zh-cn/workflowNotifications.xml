@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EmailTemplate>
+	<Subject>%siteName% - %workflowName% 通知 - %pageName% - %pageId%</Subject>
+	<Body>
+		<![CDATA[	
+		<p><strong>工作流推进通知</strong></p>
+		<p><em><a href="mailto:%workingUserEmail%">%workingUserName%</a> </em>通过工作流“<em>%workflowName%</em>”的过渡“<em>%transitionName%</em>”推进网页 <em><a href="%siteUrl%?ID=%pageId%">%pageName% (%pageId%)</a>，并将其分配给<em><a href="mailto:%nextUserEmail%">%nextUserName%</a></em></p>
+		<p> </p>
+		<p><strong>执行用户的备注：</strong>
+		<br /><em>%comments%</em></p>
+		<p> </p>
+		<p><strong>网页：</strong><br/><a href="%siteUrl%?ID=%pageId%">%siteUrl%?ID=%pageId%</a></p>
+		]]>
+	</Body>
+</EmailTemplate>
+
